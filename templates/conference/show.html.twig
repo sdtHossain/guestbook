@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conference Guestbook
+{% endblock %}
+
+{% block body %}
+	<h2>{{ conference }}</h2>
+
+
+	{% if comments|length > 0 %}
+		<p>There are
+			{{ comments|length }}
+			comments</p>
+
+		{% for comment in comments %}
+			<p>{{ comment.author }},
+				{{ comment.text }},
+				{{ comment.createdAt|format_datetime('medium', 'short') }}</p>
+		{% endfor %}
+
+		{% if previous >= 0 %}
+			<a href="{{ path('conference', { id: conference.id, offset: previous }) }}">Previous</a>
+		{% endif %}
+		{% if next < comments|length %}
+			<a href="{{ path('conference', { id: conference.id, offset: next }) }}">Next</a>
+		{% endif %}
+	{% else %}
+		<p>No comment yet</p>
+	{% endif %}
+
+{% endblock %}
